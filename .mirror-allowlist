@@ -1,0 +1,8 @@
+docs/**
+briefs/**
+reports/**
+AGENTS.md
+scripts/**
+.github/workflows/**
+.github/pii-patterns.txt
+.mirror-allowlist

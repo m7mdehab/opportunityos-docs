@@ -1,0 +1,18 @@
+name: Guard
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    env:
+      FOUNDER_NAME_PATTERNS: ${{ secrets.FOUNDER_NAME_PATTERNS }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan secrets and mirrored PII
+        run: python scripts/check_guard.py
