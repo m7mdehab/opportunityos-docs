@@ -10,8 +10,8 @@ Next: complete active brief.
 ## Repository
 
 - **Generated:** 2026-08-27T10:00:24Z
-- **Source HEAD:** `c736219` — test: add mirrored removal probe
-- **Mirror sync:** `511b0b9` at 2026-08-27T10:01:04Z
+- **Source HEAD:** `4072af7` — test: add mirrored removal probe
+- **Mirror sync:** `d9542ed` at 2026-08-27T10:02:25Z
 
 ## Active Brief
 
