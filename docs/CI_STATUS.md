@@ -2,9 +2,9 @@
 # OpportunityOS CI Status
 
 - **Private main:** `f8d55cd` — docs: repair deliberate red main state
-- **Checked:** 2026-08-27T15:30:08Z
+- **Checked:** 2026-08-27T15:30:58Z
 - **State:** success
 - **Guard:** success
 - **Mirror:** success
-- **Mirror currency:** stale — latest sync `f67f004`
-- **Verdict:** MIRROR STALE
+- **Mirror currency:** current — latest sync `f8d55cd`
+- **Verdict:** HEALTHY
