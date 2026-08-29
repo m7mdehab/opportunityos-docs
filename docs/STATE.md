@@ -10,9 +10,9 @@ Next: BRIEF-003: Opportunity Discovery & Ingestion Pipelines.
 
 ## Repository
 
-- **Generated:** 2026-08-29T21:47:48Z
-- **State generated at commit:** `b013d38` — docs(audit): record independent audit pass for final four invariants
-- **Mirror sync:** `4e062b2` at 2026-08-29T21:48:36Z
+- **Generated:** 2026-08-29T22:14:51Z
+- **State generated at commit:** `39d3470` — fix(scripts): strip CR from preserved timestamp in generate_state.py
+- **Mirror sync:** `9263eee` at 2026-08-29T22:15:37Z
 
 ## Active Brief
 
