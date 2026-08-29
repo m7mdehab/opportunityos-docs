@@ -10,9 +10,9 @@ Next: BRIEF-003: Opportunity Discovery & Ingestion Pipelines.
 
 ## Repository
 
-- **Generated:** 2026-08-29T14:02:01Z
-- **State generated at commit:** `9653212` — feat(brief-003): initialize BRIEF-003 Opportunity Discovery & Ingestion Pipelines
-- **Mirror sync:** `030c500` at 2026-08-29T14:02:19Z
+- **Generated:** 2026-08-29T14:31:00Z
+- **State generated at commit:** `56f0414` — fix(truth): remediate cross-evidence relational composition, epistemic propagation, metric provenance, and structured Never-Claim policy
+- **Mirror sync:** `d54f602` at 2026-08-29T14:32:10Z
 
 ## Active Brief
 
