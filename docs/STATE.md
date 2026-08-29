@@ -10,9 +10,9 @@ Next: [x] Independent audit passed with $\ge 90.0\%$ eligible precision (100.00%
 
 ## Repository
 
-- **Generated:** 2026-08-29T11:38:06Z
+- **Generated:** 2026-08-29T11:39:15Z
 - **State generated at commit:** `be05673` — docs: finalize Invariant 4 withholding accounting and mirror workflow status
-- **Mirror sync:** `107a34f` at 2026-08-29T11:39:16Z
+- **Mirror sync:** `de9a079` at 2026-08-29T11:39:51Z
 
 ## Active Brief
 
