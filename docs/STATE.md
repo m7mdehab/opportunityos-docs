@@ -10,9 +10,9 @@ Next: BRIEF-003: Opportunity Discovery & Ingestion Pipelines.
 
 ## Repository
 
-- **Generated:** 2026-08-29T15:08:59Z
-- **State generated at commit:** `87d9c90` — fix(truth): implement atomic assertion provenance, typed relations, and structural validation hardening
-- **Mirror sync:** `94c5013` at 2026-08-29T15:09:26Z
+- **Generated:** 2026-08-29T16:05:56Z
+- **State generated at commit:** `011db82` — feat(truth): establish authoritative atomic assertions and field-level provenance
+- **Mirror sync:** `7c1a766` at 2026-08-29T16:06:43Z
 
 ## Active Brief
 
