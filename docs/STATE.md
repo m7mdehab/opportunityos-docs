@@ -10,9 +10,9 @@ Next: BRIEF-003: Opportunity Discovery & Ingestion Pipelines.
 
 ## Repository
 
-- **Generated:** 2026-08-29T14:32:11Z
-- **State generated at commit:** `56f0414` — fix(truth): remediate cross-evidence relational composition, epistemic propagation, metric provenance, and structured Never-Claim policy
-- **Mirror sync:** `424567b` at 2026-08-29T14:32:39Z
+- **Generated:** 2026-08-29T15:07:30Z
+- **State generated at commit:** `87d9c90` — fix(truth): implement atomic assertion provenance, typed relations, and structural validation hardening
+- **Mirror sync:** `b51d5fb` at 2026-08-29T15:08:51Z
 
 ## Active Brief
 
