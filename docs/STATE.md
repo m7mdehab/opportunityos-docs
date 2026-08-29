@@ -10,9 +10,9 @@ Next: BRIEF-003: Opportunity Discovery & Ingestion Pipelines.
 
 ## Repository
 
-- **Generated:** 2026-08-29T16:06:38Z
-- **State generated at commit:** `011db82` — feat(truth): establish authoritative atomic assertions and field-level provenance
-- **Mirror sync:** `745d747` at 2026-08-29T16:12:16Z
+- **Generated:** 2026-08-29T21:47:48Z
+- **State generated at commit:** `b013d38` — docs(audit): record independent audit pass for final four invariants
+- **Mirror sync:** `4e062b2` at 2026-08-29T21:48:36Z
 
 ## Active Brief
 

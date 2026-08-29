@@ -1,9 +1,9 @@
 # AUDIT-002 - Structural Authority and Assertion Closure Independent Audit
 
 **Date:** 2026-08-29
-**Auditor:** Independent Blinded Truth-Integrity and Structural Authority Auditor
-**Audited Head:** fix/brief-002-assertion-authority (94c501351f6fcba0ec64872aa46cebc339be74ba)
-**Scope:** truth/models.py, truth/graph.py, truth/ingest.py, truth/validator.py, truth/fixtures.py, truth/test_models.py, truth/test_graph.py, truth/test_ingest.py, truth/test_adversarial.py, truth/test_property.py, truth/test_validator.py
+**Auditor:** Independent Blinded Truth-Integrity and Structural Authority Auditor (Subagent `73055c7e-ef0d-4d9e-bac3-bace66e17a30`)
+**Audited Head:** `fix/brief-002-terminal-assertion-authority` (`2aa47af9f41fd13418ebe389ad3075f81f3833fa`)
+**Scope:** `truth/models.py`, `truth/graph.py`, `truth/ingest.py`, `truth/validator.py`, `truth/fixtures.py`, `truth/test_models.py`, `truth/test_graph.py`, `truth/test_ingest.py`, `truth/test_adversarial.py`, `truth/test_property.py`, `truth/test_validator.py`
 **Overall Verdict:** 10 / 10 CRITERIA SATISFIED - FULL PASS
 
 ---
@@ -188,3 +188,34 @@ The architecture enforces complete provenance closure, strict domain-field verif
 ## Conclusion
 
 The OpportunityOS truth subsystem architecture meets the highest standard of structural authority, epistemic rigor, and assertion closure. All 10 structural authority and assertion closure criteria are certified as **FULLY SATISFIED (PASS)**.
+
+---
+
+## Final Four-Invariant Closure Audit Addendum
+
+**Date:** 2026-08-30  
+**Auditor:** Independent Blinded Truth-Integrity and Structural Authority Auditor (Subagent `a5df2bf5-9cf1-4383-9a27-24bbbff2ff1f`)  
+**Audited Target SHA:** `14e86430f40a7d671b0e2fd8cfa2624a4b0a1b6a`  
+**Overall Verdict:** **4 / 4 FINAL INVARIANTS SATISFIED - FULL PASS**
+
+### Criteria & Verdicts:
+
+1. **Subject/Predicate-Safe Field Provenance:** **PASS**
+   - In `truth/graph.py` (`_single_record_supports_value`), supervisor/relational patterns (`reports to`, `managed by`, `supervised by`, etc.) strictly prevent supervisor titles from supporting the subject's title. Client names cannot establish employer organization, certification prerequisites cannot establish held credentials, and negated jurisdictions cannot establish work authorization.
+   - Verified by `truth/test_adversarial.py`: `test_invariant_1_subject_predicate_safe_field_provenance`.
+
+2. **Real Complete Material-Field Manifest & Reflection:** **PASS**
+   - In `truth/models.py`, `CANONICAL_MATERIAL_MANIFEST` authoritatively specifies all material fields across all 12 domain models.
+   - Reflection test `truth/test_adversarial.py`: `test_invariant_2_canonical_material_field_manifest_reflection` automatically tests all `dataclasses.fields()` across models and guarantees test failure if any domain field is added without manifest classification.
+
+3. **Metric Assertions Are the Only Metric Authority:** **PASS**
+   - Direct authorization path from parent entity `metric_verification` to claim text is completely removed. Numeric claim validation in `truth/validator.py` (`_validate_metric_provenance`) requires matching an atomic `MetricAssertion` with exact numeric value, unit, semantic context, and `verification_status=MetricVerification.VERIFIED`.
+   - Multi-metric isolation verified across both sentence orders in `truth/test_adversarial.py`: `test_invariant_3_metric_assertions_are_sole_authority`.
+
+4. **ClaimCandidate Authorized by Assertions, Not Extra Text:** **PASS**
+   - In `truth/validator.py` (`ClaimValidator.validate_candidate`), candidate text facts must be authorized strictly by the selected material assertions' values and predicates, rather than unasserted extra facts present in evidence records.
+   - Verified by `truth/test_adversarial.py`: `test_invariant_4_candidate_authorized_by_assertions_not_extra_text`.
+
+### Final Audit Summary:
+
+Commit `14e86430f40a7d671b0e2fd8cfa2624a4b0a1b6a` satisfies all structural authority invariants completely and fail-closed. No bypass paths, unasserted text leaks, or metric inheritance vulnerabilities remain in the truth subsystem.
