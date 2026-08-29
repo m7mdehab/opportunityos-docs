@@ -10,9 +10,9 @@ Next: complete active brief.
 
 ## Repository
 
-- **Generated:** 2026-08-29T13:58:02Z
+- **Generated:** 2026-08-29T13:59:25Z
 - **State generated at commit:** `c178b10` — feat(brief-002): finalize BRIEF-002 closure with verified private boundary and independent Copilot audit
-- **Mirror sync:** `38ede36` at 2026-08-29T13:59:24Z
+- **Mirror sync:** `99a5711` at 2026-08-29T13:59:51Z
 
 ## Active Brief
 
