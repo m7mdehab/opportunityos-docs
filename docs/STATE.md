@@ -10,9 +10,9 @@ Next: BRIEF-004: Opportunity Matching & Proposal Tailoring.
 
 ## Repository
 
-- **Generated:** 2026-08-30T02:21:43Z
-- **State generated at commit:** `1325e9a` — docs(report-003): update phase report with structural authority audit and generated state
-- **Mirror sync:** `3f15a2c` at 2026-08-30T02:22:36Z
+- **Generated:** 2026-08-30T11:56:53Z
+- **State generated at commit:** `8df2940` — docs(report-003): update phase report with five-authority audit artifact and refresh state
+- **Mirror sync:** `4422484` at 2026-08-30T11:58:07Z
 
 ## Active Brief
 
