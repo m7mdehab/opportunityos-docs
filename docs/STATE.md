@@ -10,9 +10,9 @@ Next: BRIEF-005: Outbound Application & Engagement Workflows.
 
 ## Repository
 
-- **Generated:** 2026-08-30T19:10:55Z
-- **State generated at commit:** `6673950` — docs(report): record final authority audit results and exact prompt for brief-004
-- **Mirror sync:** `dce9de3` at 2026-08-30T19:12:32Z
+- **Generated:** 2026-08-30T19:31:23Z
+- **State generated at commit:** `9a2d380` — docs(report): update REPORT-004 for terminal three-path closure audit
+- **Mirror sync:** `2217048` at 2026-08-30T19:32:59Z
 
 ## Active Brief
 
