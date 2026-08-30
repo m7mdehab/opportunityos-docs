@@ -10,9 +10,9 @@ Next: BRIEF-004: Opportunity Matching & Proposal Tailoring.
 
 ## Repository
 
-- **Generated:** 2026-08-30T01:54:35Z
-- **State generated at commit:** `a8e3b2d` — docs(brief-003): record phase completion, acceptance criteria reconciliation, and generated state
-- **Mirror sync:** `a06c9a2` at 2026-08-30T01:55:43Z
+- **Generated:** 2026-08-30T02:21:43Z
+- **State generated at commit:** `1325e9a` — docs(report-003): update phase report with structural authority audit and generated state
+- **Mirror sync:** `3f15a2c` at 2026-08-30T02:22:36Z
 
 ## Active Brief
 
