@@ -10,9 +10,9 @@ Next: BRIEF-007 / Phase 6: Multi-Tenant Family Alpha Architecture & Productizati
 
 ## Repository
 
-- **Generated:** 2026-08-31T00:49:48Z
-- **State generated at commit:** `a00630e` — docs: update report-006 and state for terminal migration and correlation authority
-- **Mirror sync:** `dd2ee22` at 2026-08-31T00:50:59Z
+- **Generated:** 2026-08-31T05:20:04Z
+- **State generated at commit:** `534ab0c` — docs: update report-006 and state for legacy completion-marker resolution
+- **Mirror sync:** `3303f12` at 2026-08-31T05:21:26Z
 
 ## Active Brief
 
