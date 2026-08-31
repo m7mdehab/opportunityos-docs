@@ -10,9 +10,9 @@ Next: BRIEF-007 / Phase 6: Multi-Tenant Family Alpha Architecture & Productizati
 
 ## Repository
 
-- **Generated:** 2026-08-31T00:15:05Z
-- **State generated at commit:** `0cf3a72` — docs: record operational autonomy audit report for brief-006
-- **Mirror sync:** `7e16cc5` at 2026-08-31T00:16:33Z
+- **Generated:** 2026-08-31T00:27:03Z
+- **State generated at commit:** `dfa9fa9` — docs: record operational integrity audit report and updated specifications for brief-006
+- **Mirror sync:** `29da050` at 2026-08-31T00:28:25Z
 
 ## Active Brief
 
