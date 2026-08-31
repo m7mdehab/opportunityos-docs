@@ -10,9 +10,9 @@ Next: BRIEF-007 / Phase 6: Multi-Tenant Family Alpha Architecture & Productizati
 
 ## Repository
 
-- **Generated:** 2026-08-31T05:20:04Z
-- **State generated at commit:** `534ab0c` — docs: update report-006 and state for legacy completion-marker resolution
-- **Mirror sync:** `3303f12` at 2026-08-31T05:21:26Z
+- **Generated:** 2026-08-31T19:05:02Z
+- **State generated at commit:** `653eb99` — docs: add GATE-FR-001 reconciliation matrix and report
+- **Mirror sync:** `7e09f45` at 2026-08-31T19:06:20Z
 
 ## Active Brief
 
