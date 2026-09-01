@@ -10,9 +10,9 @@ Next: With the engine foundation, PostgreSQL relational persistence backbone, an
 
 ## Repository
 
-- **Generated:** 2026-09-01T00:34:33Z
-- **State generated at commit:** `d6df10f` — fix(storage): use record_reconciliation in test_postgres_integration
-- **Mirror sync:** `673a3c7` at 2026-09-01T00:36:18Z
+- **Generated:** 2026-09-01T01:11:33Z
+- **State generated at commit:** `53fd9f8` — fix(storage): ensure clean Cases Q and R implementation in test_postgres_integration.py
+- **Mirror sync:** `2b45c47` at 2026-09-01T01:13:31Z
 
 ## Active Brief
 
