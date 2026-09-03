@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `bf25d93` — docs: regenerate STATE after the FR-005 deviations addendum
-- **Checked:** 2026-09-03T11:16:54Z
+- **Checked:** 2026-09-03T16:26:51Z
 - **Mandatory Governance & Test Suite:** success
 - **State:** success
 - **Guard:** success
