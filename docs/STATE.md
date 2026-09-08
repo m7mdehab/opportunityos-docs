@@ -10,9 +10,9 @@ Next: complete active brief.
 
 ## Repository
 
-- **Generated:** 2026-09-08T21:21:18Z
-- **State generated at commit:** `7a857a8` — fix(normalization): explicit channel routing and remove description bleed from bare regions
-- **Mirror sync:** `12b3887` at 2026-09-08T21:34:36Z
+- **Generated:** 2026-09-08T23:16:30Z
+- **State generated at commit:** `65d8592` — fix(api): optimize filter matchers and prevent timeout under full feed (FA-002)
+- **Mirror sync:** `cf7067d` at 2026-09-08T23:17:23Z
 
 ## Active Brief
 
