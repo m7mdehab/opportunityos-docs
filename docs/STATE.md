@@ -10,9 +10,9 @@ Next: complete active brief.
 
 ## Repository
 
-- **Generated:** 2026-09-07T21:30:12Z
-- **State generated at commit:** `635513a` — docs(evidence): add durable truth-lock mutation proof for FR-006 A-11
-- **Mirror sync:** `695c461` at 2026-09-07T21:59:06Z
+- **Generated:** 2026-09-08T21:21:18Z
+- **State generated at commit:** `7a857a8` — fix(normalization): explicit channel routing and remove description bleed from bare regions
+- **Mirror sync:** `12b3887` at 2026-09-08T21:34:36Z
 
 ## Active Brief
 
