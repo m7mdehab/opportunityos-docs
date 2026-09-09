@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `cf7067d` — fix(api): invalidate filter cache on opportunity content change and harden prefilter fail-safe (FA-002)
-- **Checked:** 2026-09-08T23:21:19Z
+- **Checked:** 2026-09-09T04:44:47Z
 - **Mandatory Governance & Test Suite:** failure
 - **State:** failure
 - **Guard:** success
