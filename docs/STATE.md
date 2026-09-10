@@ -12,7 +12,7 @@ Next: complete active brief.
 
 - **Generated:** 2026-09-08T23:16:30Z
 - **State generated at commit:** `65d8592` — fix(api): optimize filter matchers and prevent timeout under full feed (FA-002)
-- **Mirror sync:** `5ab3594` at 2026-09-10T00:05:32Z
+- **Mirror sync:** `bc167af` at 2026-09-10T22:01:20Z
 
 ## Active Brief
 
