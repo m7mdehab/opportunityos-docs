@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `ec36a45` — Merge PR #76: restore FR-006 CI gates and artifact coverage
-- **Checked:** 2026-09-12T17:48:40Z
+- **Checked:** 2026-09-12T20:34:31Z
 - **Mandatory Governance & Test Suite:** success
 - **State:** success
 - **Guard:** success
