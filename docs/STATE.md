@@ -11,8 +11,8 @@ Next: Founder Web Alpha is publicly reachable and authentication-protected.
 ## Repository
 
 - **Generated:** 2026-09-13T16:02:12Z
-- **State generated at commit:** `6156fae` — fix(worker): avoid full-corpus no-op evaluation scans
-- **Mirror sync:** `242740d` at 2026-09-13T19:35:38Z
+- **State generated at commit:** `a102f06` — fix(scheduler): preserve poll cadence across restarts
+- **Mirror sync:** `cbae2ed` at 2026-09-13T19:42:05Z
 
 ## Active Brief
 
