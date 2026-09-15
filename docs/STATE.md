@@ -10,9 +10,9 @@ Next: Founder Web Alpha is publicly reachable and authentication-protected.
 
 ## Repository
 
-- **Generated:** 2026-09-14T22:00:30Z
-- **State generated at commit:** `8c4038f` — fix: prefilter production qualification queries
-- **Mirror sync:** `99378d8` at 2026-09-14T22:06:45Z
+- **Generated:** 2026-09-14T23:22:36Z
+- **State generated at commit:** `a406e17` — fix: stabilize long source identities across feed reorder
+- **Mirror sync:** `f448fd6` at 2026-09-15T20:36:30Z
 
 ## Active Brief
 
