@@ -11,8 +11,8 @@ Next: Founder Web Alpha is publicly reachable and authentication-protected.
 ## Repository
 
 - **Generated:** 2026-09-15T21:03:10Z
-- **State generated at commit:** `e62cafa` — docs(governance): lock Overseer executor-loop policy
-- **Mirror sync:** `6e18f03` at 2026-09-18T10:18:04Z
+- **State generated at commit:** `d3cdd6e` — FR-007: add current readiness launcher
+- **Mirror sync:** `75f7898` at 2026-09-19T18:55:56Z
 
 ## Active Brief
 
