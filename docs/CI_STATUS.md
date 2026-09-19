@@ -2,10 +2,10 @@
 # OpportunityOS CI Status
 
 - **Private main:** `6e18f03` — Merge PR #100: lock Overseer executor-loop policy
-- **Checked:** 2026-09-19T11:02:03Z
-- **Mandatory Governance & Test Suite:** success
-- **State:** success
-- **Guard:** success
+- **Checked:** 2026-09-19T15:54:20Z
+- **Mandatory Governance & Test Suite:** missing
+- **State:** missing
+- **Guard:** missing
 - **Mirror:** success
 - **Mirror currency:** current — latest sync `6e18f03`
-- **Verdict:** HEALTHY
+- **Verdict:** CHECKS FAILING
