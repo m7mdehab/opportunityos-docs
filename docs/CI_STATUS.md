@@ -2,10 +2,10 @@
 # OpportunityOS CI Status
 
 - **Private main:** `75f7898` — Merge pull request #130 from m7mdehab/ops/fr007-readiness-launcher
-- **Checked:** 2026-09-20T11:26:52Z
-- **Mandatory Governance & Test Suite:** success
-- **State:** success
-- **Guard:** success
+- **Checked:** 2026-09-20T16:08:54Z
+- **Mandatory Governance & Test Suite:** missing
+- **State:** missing
+- **Guard:** missing
 - **Mirror:** success
 - **Mirror currency:** current — latest sync `75f7898`
-- **Verdict:** HEALTHY
+- **Verdict:** CHECKS FAILING
