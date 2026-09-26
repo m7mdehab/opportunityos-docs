@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-17T10:01:21Z
-- **State generated at commit:** `47e0b92` — test(live): stabilize filter-clear and feed-refresh assertions
-- **Mirror sync:** `56e8e2f` at 2026-09-26T22:31:54Z
+- **State generated at commit:** `18dc6d8` — fix(ci): validate repository-defined CV portfolio
+- **Mirror sync:** `28b20e5` at 2026-09-26T23:00:05Z
 
 ## Active Brief
 
