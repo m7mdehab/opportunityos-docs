@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `8cd876e` — Merge full hosted smoke budget fix
-- **Checked:** 2026-09-26T14:44:45Z
+- **Checked:** 2026-09-26T16:25:14Z
 - **Mandatory Governance & Test Suite:** success
 - **State:** failure
 - **Guard:** success
