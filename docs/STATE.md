@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-17T10:01:21Z
-- **State generated at commit:** `c4d9e7e` — test(hosted): close track facet before continuing smoke flow
-- **Mirror sync:** `75eab65` at 2026-09-26T13:54:24Z
+- **State generated at commit:** `b558591` — test(hosted): budget time for full live smoke sequence
+- **Mirror sync:** `073759b` at 2026-09-26T14:22:07Z
 
 ## Active Brief
 
