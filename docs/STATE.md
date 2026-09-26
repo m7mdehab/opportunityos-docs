@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-17T10:01:21Z
-- **State generated at commit:** `d0c2eb7` — fix(feed): sync query URL only after authentication
-- **Mirror sync:** `1bf5dab` at 2026-09-26T22:18:29Z
+- **State generated at commit:** `47e0b92` — test(live): stabilize filter-clear and feed-refresh assertions
+- **Mirror sync:** `56e8e2f` at 2026-09-26T22:31:54Z
 
 ## Active Brief
 
