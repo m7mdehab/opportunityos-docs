@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-17T10:01:21Z
-- **State generated at commit:** `7f5edae` — test(hosted): budget full end-to-end live proof
-- **Mirror sync:** `8cd876e` at 2026-09-26T14:43:12Z
+- **State generated at commit:** `a0b8fd1` — fix(truth): align template target role with assertion-only schema
+- **Mirror sync:** `3ea7aff` at 2026-09-26T17:14:22Z
 
 ## Active Brief
 
