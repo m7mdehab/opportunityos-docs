@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-17T10:01:21Z
-- **State generated at commit:** `94c0194` — docs: mark W23 evidence complete before state commit
-- **Mirror sync:** `567f0d0` at 2026-09-26T10:02:14Z
+- **State generated at commit:** `7578918` — test(reliability): seed evaluation content hashes for FR-008 schema
+- **Mirror sync:** `55b1a27` at 2026-09-26T13:35:22Z
 
 ## Active Brief
 
