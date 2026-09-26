@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `567f0d0` — docs(governance): preserve Overseer execution lock after main canonicalization
-- **Checked:** 2026-09-26T10:03:14Z
+- **Checked:** 2026-09-26T10:03:47Z
 - **Mandatory Governance & Test Suite:** failure
 - **State:** failure
 - **Guard:** success
