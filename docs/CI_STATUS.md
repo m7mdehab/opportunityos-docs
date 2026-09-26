@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `3ea7aff` — Merge PR #149: fix hosted worker credential predicate regression
-- **Checked:** 2026-09-26T17:16:49Z
+- **Checked:** 2026-09-26T21:11:59Z
 - **Mandatory Governance & Test Suite:** success
 - **State:** success
 - **Guard:** success
