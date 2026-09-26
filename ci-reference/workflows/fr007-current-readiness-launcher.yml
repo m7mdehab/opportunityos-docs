@@ -2,11 +2,107 @@ name: FR-007 Current Readiness Launcher
 
 on:
   workflow_dispatch:
+    inputs:
+      truth_pack_hash:
+        description: "Authoritative truth-pack hash (leave blank to discover it)"
+        required: false
+        default: ""
+      mode:
+        description: "Closure, Storage V2 CI, hosted staging, DB probe, CV verification, bounded bootstrap, capacity reforecast, or normal queue recovery"
+        required: false
+        default: "full"
+        type: choice
+        options: [full, acceptance, storage-v2-ci, db-credential-probe, verify-cv-storage, representative-source, capacity-reforecast, incremental-source-bootstrap, queue-recovery, staging-deploy, staging-smoke]
+      source_id:
+        description: "The one approved read-only representative source"
+        required: false
+        default: "himalayas"
+        type: choice
+        options: [himalayas]
+      source_offset:
+        description: "Start offset in the sorted read-allowed source registry"
+        required: false
+        default: "0"
+        type: string
+      max_sources:
+        description: "Maximum read-allowed sources in this bounded run (1-125)"
+        required: false
+        default: "125"
+        type: string
 
 permissions:
   contents: read
+  issues: write
+  pull-requests: write
+  actions: read
 
 jobs:
-  readiness:
-    uses: m7mdehab/opportunityos/.github/workflows/fr007-zero-dollar-readiness.yml@brief/fr-007-cloud-replatform
+  storage-v2-proof:
+    if: ${{ inputs.mode == 'storage-v2-ci' || inputs.mode == 'db-credential-probe' || inputs.mode == 'verify-cv-storage' }}
+    uses: ./.github/workflows/fr007-storage-v2-postgres.yml
+    with:
+      mode: ${{ inputs.mode == 'db-credential-probe' && 'credential-probe' || inputs.mode == 'verify-cv-storage' && 'verify-cv-storage' || 'postgres-ci' }}
+    secrets: inherit
+  representative-credential-gate:
+    if: ${{ inputs.mode == 'representative-source' }}
+    uses: ./.github/workflows/fr007-storage-v2-postgres.yml
+    with:
+      mode: credential-probe
+    secrets: inherit
+  representative-source-gate:
+    if: ${{ inputs.mode == 'representative-source' }}
+    needs: [representative-credential-gate]
+    uses: ./.github/workflows/fr007-storage-v2-representative-source.yml
+    with:
+      source_id: ${{ inputs.source_id }}
+    secrets: inherit
+  capacity-reforecast:
+    if: ${{ inputs.mode == 'capacity-reforecast' }}
+    uses: ./.github/workflows/fr007-storage-v2-representative-source.yml
+    with:
+      source_id: __successful_corpus__
+      benchmark_only: true
+    secrets: inherit
+  incremental-source-bootstrap:
+    if: ${{ inputs.mode == 'incremental-source-bootstrap' }}
+    uses: ./.github/workflows/fr007-incremental-source-bootstrap.yml
+    with:
+      source_offset: ${{ inputs.source_offset }}
+      max_sources: ${{ inputs.max_sources }}
+    secrets: inherit
+  queue-recovery:
+    if: ${{ inputs.mode == 'queue-recovery' }}
+    uses: ./.github/workflows/fr007-worker-drain.yml
+    with:
+      mode: drain
+      max_jobs: "5"
+      time_budget_seconds: "480"
+    secrets: inherit
+  staging-deploy:
+    if: ${{ inputs.mode == 'staging-deploy' || inputs.mode == 'staging-smoke' }}
+    uses: ./.github/workflows/fr007-cloudflare-staging-deploy.yml
+    with:
+      mode: DEPLOY_STAGING
+      acknowledge_staging_deployment: true
+      ref: ${{ github.ref_name }}
+    secrets: inherit
+  staging-smoke:
+    if: ${{ inputs.mode == 'staging-smoke' }}
+    needs: [staging-deploy]
+    uses: ./.github/workflows/fr007-founder-staging-ready.yml
+    secrets: inherit
+  final-closure-acceptance:
+    if: ${{ inputs.mode == 'acceptance' }}
+    uses: ./.github/workflows/fr007-final-runtime-closure.yml
+    with:
+      truth_pack_hash: ${{ inputs.truth_pack_hash }}
+      mode: acceptance
+      acceptance_required: true
+    secrets: inherit
+  final-closure-other:
+    if: ${{ inputs.mode == 'full' || inputs.mode == 'recovery' }}
+    uses: ./.github/workflows/fr007-final-runtime-closure.yml
+    with:
+      truth_pack_hash: ${{ inputs.truth_pack_hash }}
+      mode: ${{ inputs.mode }}
     secrets: inherit

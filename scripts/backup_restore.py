@@ -43,7 +43,17 @@ from storage.models import (
     FounderFacetRecord,
     FounderSavedViewRecord,
     ArtifactCacheRecord,
+    SourceScheduleRecord,
+    FounderSessionRecord,
+    FounderAuthRateLimitRecord,
+    FounderAuthEventRecord,
+    FounderCVSelectionRecord,
+    FounderActivityEventRecord,
+    OpportunityColdArchiveRecord,
+    OpportunityArchiveOrphanRecord,
+    BackupHeartbeatRecord,
 )
+from storage.feed_projection import FeedProjectionRecord
 
 # Repository root, derived from this file's location (not the process CWD).
 # Used to resolve alembic.ini itself AND (see _build_alembic_config) to make
@@ -88,6 +98,10 @@ DUMP_SECTION_TABLE_MAP = {
     "worker_jobs": "worker_jobs",
     "founder_feedback": "founder_feedback",
     "match_evaluations": "match_evaluations",
+    "feed_projection": "feed_projection",
+    "founder_activity_events": "founder_activity_events",
+    "opportunity_cold_archive": "opportunity_cold_archive",
+    "opportunity_archive_orphans": "opportunity_archive_orphans",
     "source_poll_runs": "source_poll_runs",
     "founder_opportunity_views": "founder_opportunity_views",
     "founder_triage_states": "founder_triage_states",
@@ -96,6 +110,12 @@ DUMP_SECTION_TABLE_MAP = {
     "founder_facets": "founder_facets",
     "founder_saved_views": "founder_saved_views",
     "artifact_cache": "artifact_cache",
+    "founder_cv_selections": "founder_cv_selections",
+    "source_schedules": "source_schedules",
+    "founder_sessions": "founder_sessions",
+    "founder_auth_rate_limit": "founder_auth_rate_limit",
+    "founder_auth_events": "founder_auth_events",
+    "backup_heartbeats": "backup_heartbeats",
 }
 
 
@@ -202,6 +222,10 @@ def dump_database(db_url: str, output_file: str) -> int:
         "worker_jobs": [],
         "founder_feedback": [],
         "match_evaluations": [],
+        "feed_projection": [],
+        "founder_activity_events": [],
+        "opportunity_cold_archive": [],
+        "opportunity_archive_orphans": [],
         "source_poll_runs": [],
         "founder_opportunity_views": [],
         "founder_triage_states": [],
@@ -210,6 +234,12 @@ def dump_database(db_url: str, output_file: str) -> int:
         "founder_facets": [],
         "founder_saved_views": [],
         "artifact_cache": [],
+        "founder_cv_selections": [],
+        "source_schedules": [],
+        "founder_sessions": [],
+        "founder_auth_rate_limit": [],
+        "founder_auth_events": [],
+        "backup_heartbeats": [],
     }
 
     # 1. Opportunities & Field Provenances
@@ -230,7 +260,12 @@ def dump_database(db_url: str, output_file: str) -> int:
             "compensation_max": opp.compensation_max, "compensation_currency": opp.compensation_currency,
             "compensation_period": opp.compensation_period, "title_family": opp.title_family,
             "title_level": opp.title_level, "family_key": opp.family_key,
-            "search_tsv": opp.search_tsv,
+            # Search vectors are derived from compact card fields and rebuilt
+            # on restore; they are not an independent source of truth.
+            "archive_object_key": opp.archive_object_key,
+            "archive_sha256": opp.archive_sha256,
+            "archive_state": opp.archive_state,
+            "lifecycle_tier": opp.lifecycle_tier,
         })
         for prov in opp.provenances:
             data["field_provenances"].append({
@@ -352,12 +387,57 @@ def dump_database(db_url: str, output_file: str) -> int:
     for me in session.query(MatchEvaluationRecord).all():
         data["match_evaluations"].append({
             "id": me.id, "opportunity_id": me.opportunity_id, "truth_pack_hash": me.truth_pack_hash,
+            "content_hash": me.content_hash,
             "qualification_decision": me.qualification_decision, "fit_score": me.fit_score,
             "dimension_scores_json": me.dimension_scores_json, "reasons_json": me.reasons_json,
+            "hard_failure_code": me.hard_failure_code,
             "evaluation_detail_json": me.evaluation_detail_json,
             "policy_version": me.policy_version,
             "evaluated_at": me.evaluated_at.isoformat() if me.evaluated_at else None,
             "created_at": me.created_at.isoformat() if me.created_at else None,
+        })
+
+    # The single lean current feed read model is part of the backup, including
+    # visibility and ranking. Full descriptions/search vectors are not copied.
+    for projection in session.query(FeedProjectionRecord).all():
+        row = {}
+        for column in FeedProjectionRecord.__table__.columns:
+            value = getattr(projection, column.name)
+            if isinstance(value, datetime):
+                value = value.isoformat()
+            row[column.name] = value
+        data["feed_projection"].append(row)
+
+    for archive in session.query(OpportunityColdArchiveRecord).all():
+        data["opportunity_cold_archive"].append({
+            "opportunity_id": archive.opportunity_id,
+            "content_hash": archive.content_hash,
+            "payload_zlib": base64.b64encode(archive.payload_zlib).decode("ascii") if archive.payload_zlib is not None else None,
+            "storage_backend": archive.storage_backend,
+            "object_key": archive.object_key,
+            "compressed_size_bytes": archive.compressed_size_bytes,
+            "payload_sha256": archive.payload_sha256,
+            "original_size_bytes": archive.original_size_bytes,
+            "archive_version": archive.archive_version,
+            "archived_at": archive.archived_at.isoformat() if archive.archived_at else None,
+        })
+
+    for orphan in session.query(OpportunityArchiveOrphanRecord).all():
+        data["opportunity_archive_orphans"].append({
+            "object_key": orphan.object_key,
+            "payload_sha256": orphan.payload_sha256,
+            "compressed_size_bytes": orphan.compressed_size_bytes,
+            "created_at": orphan.created_at.isoformat() if orphan.created_at else None,
+        })
+
+    for activity in session.query(FounderActivityEventRecord).all():
+        data["founder_activity_events"].append({
+            "id": activity.id,
+            "opportunity_id": activity.opportunity_id,
+            "action_type": activity.action_type,
+            "resulting_state": activity.resulting_state,
+            "snoozed_until": activity.snoozed_until.isoformat() if activity.snoozed_until else None,
+            "created_at": activity.created_at.isoformat() if activity.created_at else None,
         })
 
     # 12. Source Poll Runs (no FK dependency)
@@ -432,7 +512,75 @@ def dump_database(db_url: str, output_file: str) -> int:
             "truth_pack_hash": art.truth_pack_hash, "template_id": art.template_id,
             "artifact_kind": art.artifact_kind, "content_type": art.content_type,
             "payload": base64.b64encode(art.payload).decode("ascii") if art.payload is not None else None,
+            "storage_backend": art.storage_backend or "postgres_payload",
+            "object_key": art.object_key, "payload_sha256": art.payload_sha256,
+            "size_bytes": art.size_bytes, "generation_version": art.generation_version,
             "created_at": art.created_at.isoformat() if art.created_at else None,
+        })
+
+    # 20. Fixed Founder CV selections (ADR-0024 / FR-007). The FK
+    # points to opportunities, which were dumped in section 1.
+    for selection in session.query(FounderCVSelectionRecord).all():
+        data["founder_cv_selections"].append({
+            "opportunity_id": selection.opportunity_id,
+            "variant": selection.variant,
+            "object_path": selection.object_path,
+            "sha256": selection.sha256,
+            "selected_at": selection.selected_at.isoformat() if selection.selected_at else None,
+            "truth_pack_hash": selection.truth_pack_hash,
+        })
+
+    # 21. Source Schedules (W11, FR-007) -- no FK dependency.
+    for sched in session.query(SourceScheduleRecord).all():
+        data["source_schedules"].append({
+            "source_id": sched.source_id,
+            "cadence_hours": sched.cadence_hours,
+            "last_attempt_at": sched.last_attempt_at.isoformat() if sched.last_attempt_at else None,
+            "last_success_at": sched.last_success_at.isoformat() if sched.last_success_at else None,
+            "next_due_at": sched.next_due_at.isoformat() if sched.next_due_at else None,
+            "cooldown_until": sched.cooldown_until.isoformat() if sched.cooldown_until else None,
+            "consecutive_failures": sched.consecutive_failures,
+            "last_status": sched.last_status,
+            "error_message": sched.error_message,
+            "created_at": sched.created_at.isoformat() if sched.created_at else None,
+            "updated_at": sched.updated_at.isoformat() if sched.updated_at else None,
+        })
+
+    # 22. Hosted authentication state. Audit history is preserved. Restored
+    # sessions are immediately revoked so a disaster-recovery target cannot
+    # accept cookies minted by the source environment.
+    for auth_session in session.query(FounderSessionRecord).all():
+        data["founder_sessions"].append({
+            "id": auth_session.id, "token_digest": auth_session.token_digest,
+            "created_at": auth_session.created_at.isoformat() if auth_session.created_at else None,
+            "expires_at": auth_session.expires_at.isoformat() if auth_session.expires_at else None,
+            "revoked_at": auth_session.revoked_at.isoformat() if auth_session.revoked_at else None,
+            "last_seen_at": auth_session.last_seen_at.isoformat() if auth_session.last_seen_at else None,
+            "user_agent_hash": auth_session.user_agent_hash, "auth_version": auth_session.auth_version,
+        })
+    for limit in session.query(FounderAuthRateLimitRecord).all():
+        data["founder_auth_rate_limit"].append({
+            "id": limit.id, "window_started_at": limit.window_started_at.isoformat(),
+            "attempt_count": limit.attempt_count, "locked_until": limit.locked_until.isoformat() if limit.locked_until else None,
+            "updated_at": limit.updated_at.isoformat(),
+        })
+    for event in session.query(FounderAuthEventRecord).all():
+        data["founder_auth_events"].append({
+            "id": event.id, "event_type": event.event_type, "outcome": event.outcome,
+            "created_at": event.created_at.isoformat(), "request_id": event.request_id,
+            "session_id": event.session_id,
+        })
+
+    for heartbeat in session.query(BackupHeartbeatRecord).all():
+        data["backup_heartbeats"].append({
+            "id": heartbeat.id,
+            "result": heartbeat.result,
+            "backup_completed_at": heartbeat.backup_completed_at.isoformat(),
+            "encryption": heartbeat.encryption,
+            "destination_class": heartbeat.destination_class,
+            "database_snapshot_sha": heartbeat.database_snapshot_sha,
+            "artifact_run_id": heartbeat.artifact_run_id,
+            "updated_at": heartbeat.updated_at.isoformat(),
         })
 
     # Row-count completeness check, run in the same session/transaction the
@@ -751,6 +899,14 @@ def restore_database(dump_file: str, db_url: str) -> None:
         me = MatchEvaluationRecord(**me_dict)
         session.merge(me)
 
+    for projection_dict in data.get("feed_projection", []):
+        for date_field in ("evaluated_at", "projected_at"):
+            if projection_dict.get(date_field):
+                projection_dict[date_field] = datetime.fromisoformat(projection_dict[date_field])
+        session.merge(FeedProjectionRecord(**projection_dict))
+
+    session.flush()
+
     # 12. Source Poll Runs -- no FK dependency.
     for spr_dict in data.get("source_poll_runs", []):
         if spr_dict.get("started_at"):
@@ -814,12 +970,92 @@ def restore_database(dump_file: str, db_url: str) -> None:
     # column, not a relationship()-backed FK; see the flush() note after
     # section 1 for why that distinction matters for ordering.
     for art_dict in data.get("artifact_cache", []):
+        # Backups produced before 0008 remain valid PostgreSQL-payload rows.
+        art_dict.setdefault("storage_backend", "postgres_payload")
+        art_dict.setdefault("object_key", None)
+        art_dict.setdefault("payload_sha256", None)
+        art_dict.setdefault("size_bytes", len(base64.b64decode(art_dict["payload"])) if art_dict.get("payload") else None)
+        art_dict.setdefault("generation_version", None)
         if art_dict.get("created_at"):
             art_dict["created_at"] = datetime.fromisoformat(art_dict["created_at"])
         if art_dict.get("payload") is not None:
             art_dict["payload"] = base64.b64decode(art_dict["payload"])
         art = ArtifactCacheRecord(**art_dict)
         session.merge(art)
+
+    # 20. Fixed Founder CV selections (ADR-0024 / FR-007).
+    for selection_dict in data.get("founder_cv_selections", []):
+        if selection_dict.get("selected_at"):
+            selection_dict["selected_at"] = datetime.fromisoformat(selection_dict["selected_at"])
+        session.merge(FounderCVSelectionRecord(**selection_dict))
+
+    # 21. Source Schedules (W11, FR-007) -- no FK dependency.
+    for sched_dict in data.get("source_schedules", []):
+        for date_field in (
+            "last_attempt_at",
+            "last_success_at",
+            "next_due_at",
+            "cooldown_until",
+            "created_at",
+            "updated_at",
+        ):
+            if sched_dict.get(date_field):
+                sched_dict[date_field] = datetime.fromisoformat(sched_dict[date_field])
+        sched = SourceScheduleRecord(**sched_dict)
+        session.merge(sched)
+
+    # 22. Authentication state. Never restore live sessions; rate-limit state
+    # is intentionally reset while the immutable audit trail is preserved.
+    now = datetime.now(timezone.utc)
+    for auth_dict in data.get("founder_sessions", []):
+        for field in ("created_at", "expires_at", "revoked_at", "last_seen_at"):
+            if auth_dict.get(field):
+                auth_dict[field] = datetime.fromisoformat(auth_dict[field])
+        auth_dict["revoked_at"] = now
+        auth_dict["expires_at"] = now
+        session.merge(FounderSessionRecord(**auth_dict))
+    for event_dict in data.get("founder_auth_events", []):
+        if event_dict.get("created_at"):
+            event_dict["created_at"] = datetime.fromisoformat(event_dict["created_at"])
+        session.merge(FounderAuthEventRecord(**event_dict))
+
+    for heartbeat_dict in data.get("backup_heartbeats", []):
+        for field in ("backup_completed_at", "updated_at"):
+            if heartbeat_dict.get(field):
+                heartbeat_dict[field] = datetime.fromisoformat(heartbeat_dict[field])
+        session.merge(BackupHeartbeatRecord(**heartbeat_dict))
+
+    for activity_dict in data.get("founder_activity_events", []):
+        for field in ("snoozed_until", "created_at"):
+            if activity_dict.get(field):
+                activity_dict[field] = datetime.fromisoformat(activity_dict[field])
+        session.merge(FounderActivityEventRecord(**activity_dict))
+
+    for archive_dict in data.get("opportunity_cold_archive", []):
+        if archive_dict.get("archived_at"):
+            archive_dict["archived_at"] = datetime.fromisoformat(archive_dict["archived_at"])
+        if archive_dict.get("payload_zlib") is not None:
+            archive_dict["payload_zlib"] = base64.b64decode(archive_dict["payload_zlib"])
+        session.merge(OpportunityColdArchiveRecord(**archive_dict))
+
+    for orphan_dict in data.get("opportunity_archive_orphans", []):
+        if orphan_dict.get("created_at"):
+            orphan_dict["created_at"] = datetime.fromisoformat(orphan_dict["created_at"])
+        session.merge(OpportunityArchiveOrphanRecord(**orphan_dict))
+    # A new target starts with a clean transient login budget.
+    for limit_dict in data.get("founder_auth_rate_limit", []):
+        limit_dict["window_started_at"] = now
+        limit_dict["attempt_count"] = 0
+        limit_dict["locked_until"] = None
+        limit_dict["updated_at"] = now
+        session.merge(FounderAuthRateLimitRecord(**limit_dict))
+
+    # Rebuild the compact searchable vector from restored hot card fields;
+    # do not copy a duplicate/stale vector from the JSON backup.
+    if session.bind is not None and session.bind.dialect.name == "postgresql":
+        from storage.repository import backfill_search_tsv
+
+        backfill_search_tsv(session, only_missing=True)
 
     session.commit()
     session.close()

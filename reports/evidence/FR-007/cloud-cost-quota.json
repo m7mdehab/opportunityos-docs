@@ -1,0 +1,118 @@
+{
+  "envelope_version": "2.0.0",
+  "brief": "FR-007",
+  "architecture_authority": "ADR-0023",
+  "generated_at_utc": "2026-09-19T00:00:00Z",
+  "policy": {
+    "gross_provider_charge_must_equal_usd": 0,
+    "founder_out_of_pocket_must_equal_usd": 0,
+    "student_or_trial_credit_allowed": false,
+    "paid_overage_allowed": false,
+    "quota_exhaustion_behavior": "fail_closed_or_degrade_without_spend",
+    "approved_providers": [
+      "Supabase",
+      "Cloudflare",
+      "GitHub"
+    ]
+  },
+  "services": {
+    "supabase": {
+      "provider": "Supabase",
+      "tier": "Free",
+      "tier_classification": "permanent_free_allowance",
+      "first_party_reference": "https://supabase.com/pricing",
+      "checked_date": "2026-09-19",
+      "limits": {
+        "database_storage_mb": 500,
+        "file_storage_mb": 1000,
+        "monthly_egress_mb": 5000,
+        "active_projects": 2,
+        "pause_inactivity_days": 7,
+        "edge_function_invocations_monthly": 500000
+      },
+      "projected_usage": {
+        "database_storage_mb": 45,
+        "file_storage_mb": 120,
+        "monthly_egress_mb": 850,
+        "active_projects": 1,
+        "edge_function_invocations_monthly": 25000,
+        "cron_jobs": 3,
+        "pause_prevention_mechanism": "scheduled database/worker/monitor activity"
+      },
+      "covered_by_permanent_allowance": true,
+      "covered_by_student_credit": false,
+      "gross_provider_charge_usd": 0,
+      "student_credit_absorbed_usd": 0,
+      "net_founder_out_of_pocket_usd": 0,
+      "unapproved_paid_resource": false
+    },
+    "cloudflare": {
+      "provider": "Cloudflare",
+      "tier": "Workers Free + existing domain",
+      "tier_classification": "permanent_free_allowance",
+      "first_party_reference": "https://developers.cloudflare.com/workers/platform/limits/",
+      "checked_date": "2026-09-19",
+      "limits": {
+        "worker_requests_daily": 100000,
+        "cpu_ms_per_http_request": 10,
+        "cron_triggers_per_account": 5,
+        "worker_environment_variables": 64,
+        "static_asset_delivery": "free_unlimited_requests"
+      },
+      "projected_usage": {
+        "worker_requests_daily": 1500,
+        "cpu_ms_per_http_request_target": 3.5,
+        "cron_triggers": 1,
+        "worker_scripts": 1,
+        "delivery_posture": "static_assets_plus_thin_edge_only"
+      },
+      "covered_by_permanent_allowance": true,
+      "covered_by_student_credit": false,
+      "gross_provider_charge_usd": 0,
+      "student_credit_absorbed_usd": 0,
+      "net_founder_out_of_pocket_usd": 0,
+      "unapproved_paid_resource": false
+    },
+    "github_actions": {
+      "provider": "GitHub",
+      "tier": "Existing GitHub account / standard hosted runners on public repository",
+      "tier_classification": "permanent_no_charge_for_standard_public_repo_runners",
+      "first_party_reference": "https://docs.github.com/en/actions/concepts/billing-and-usage",
+      "checked_date": "2026-09-19",
+      "limits": {
+        "repository_visibility_required_for_unmetered_standard_runner_minutes": "public",
+        "pro_artifact_storage_mb": 1000,
+        "cache_storage_mb_per_repository": 10000,
+        "larger_runners_allowed": false
+      },
+      "projected_usage": {
+        "repository_visibility": "public",
+        "worker_cadence_minutes": 10,
+        "worker_runs_monthly": 4320,
+        "monitor_cadence_minutes": 30,
+        "monitor_runs_monthly": 1440,
+        "runner_class": "standard_ubuntu",
+        "encrypted_backup_artifact_max_mb": 100,
+        "backup_retention_days": 7,
+        "soak_artifact_retention_days": 90
+      },
+      "covered_by_permanent_allowance": true,
+      "covered_by_student_credit": false,
+      "gross_provider_charge_usd": 0,
+      "student_credit_absorbed_usd": 0,
+      "net_founder_out_of_pocket_usd": 0,
+      "unapproved_paid_resource": false
+    }
+  },
+  "summary": {
+    "total_gross_provider_charge_usd": 0,
+    "total_student_credit_applied_usd": 0,
+    "total_founder_out_of_pocket_usd": 0,
+    "all_within_permanent_free_allowance": true,
+    "credit_dependency": false,
+    "unapproved_paid_resources_count": 0,
+    "excluded_providers": [
+      "Azure"
+    ]
+  }
+}

@@ -1,0 +1,140 @@
+name: FR-007 egress-bounded encrypted backups
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+    - cron: "47 2 1 * *"
+  workflow_dispatch:
+    inputs:
+      acknowledge_backup:
+        description: "Authorize a staging encrypted backup"
+        required: true
+        type: boolean
+        default: false
+      backup_class:
+        description: "Frequent Founder state or monthly broad integrity snapshot"
+        required: true
+        type: choice
+        default: founder_state
+        options: [founder_state, integrity]
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    if: ${{ github.event_name == 'schedule' || inputs.acknowledge_backup == true }}
+    environment: fr007-staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      BACKUP_CLASS: ${{ github.event.schedule == '47 2 1 * *' && 'integrity' || inputs.backup_class || 'founder_state' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install PostgreSQL 17 client for monthly integrity backup
+        if: env.BACKUP_CLASS == 'integrity'
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo install -d -m 0755 /usr/share/postgresql-common/pgdg
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+            | gpg --dearmor \
+            | sudo tee /usr/share/postgresql-common/pgdg/apt.postgresql.org.gpg >/dev/null
+          . /etc/os-release
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.gpg] https://apt.postgresql.org/pub/repos/apt ${VERSION_CODENAME}-pgdg main" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends postgresql-client-17
+          pg_dump --version
+      - name: Install repository dependencies
+        run: python -m pip install -e .
+      - name: Export, encrypt and verify bounded backup class
+        env:
+          OPOS_SOURCE_DB_URL: ${{ secrets.CLOUD_DATABASE_URL || secrets.OPOS_TARGET_DB_URL }}
+          BACKUP_ENCRYPTION_KEY: ${{ secrets.BACKUP_ENCRYPTION_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p backup-out
+          if [[ "$BACKUP_CLASS" == "founder_state" ]]; then
+            python scripts/founder_state_backup.py export --output backup-out/founder-state.json.gz
+            input=backup-out/founder-state.json.gz
+          elif [[ "$BACKUP_CLASS" == "integrity" ]]; then
+            python scripts/db_migration_restore.py backup --backup-class integrity --destination backup-out/source.dump
+            input=backup-out/source.dump
+          else
+            echo "unsupported backup class" >&2
+            exit 2
+          fi
+          python scripts/encrypted_backup.py encrypt \
+            --input "$input" \
+            --output "backup-out/backup.${BACKUP_CLASS}.enc" \
+            --manifest "backup-out/backup.${BACKUP_CLASS}.manifest.json" \
+            --backup-class "$BACKUP_CLASS" \
+            --remove-plaintext
+          test ! -e "$input"
+          python scripts/encrypted_backup.py verify \
+            --archive "backup-out/backup.${BACKUP_CLASS}.enc" \
+            --manifest "backup-out/backup.${BACKUP_CLASS}.manifest.json"
+      - name: Record durable backup heartbeat
+        env:
+          OPOS_TARGET_DB_URL: ${{ secrets.CLOUD_DATABASE_URL || secrets.OPOS_TARGET_DB_URL }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from sqlalchemy import create_engine, text
+
+          backup_class = os.environ["BACKUP_CLASS"]
+          manifest_path = f"backup-out/backup.{backup_class}.manifest.json"
+          manifest = json.load(open(manifest_path, encoding="utf-8"))
+          engine = create_engine(os.environ["OPOS_TARGET_DB_URL"], future=True, pool_size=1, max_overflow=0)
+          with engine.begin() as conn:
+              conn.execute(text("""
+                  INSERT INTO public.backup_heartbeats
+                    (id, result, backup_completed_at, encryption, destination_class,
+                     database_snapshot_sha, artifact_run_id, updated_at)
+                  VALUES
+                    ('latest', 'SUCCESS', :completed_at, true, 'github_actions_encrypted_artifact',
+                     :sha, :run_id, :updated_at)
+                  ON CONFLICT (id) DO UPDATE SET
+                    result=EXCLUDED.result,
+                    backup_completed_at=EXCLUDED.backup_completed_at,
+                    encryption=EXCLUDED.encryption,
+                    destination_class=EXCLUDED.destination_class,
+                    database_snapshot_sha=EXCLUDED.database_snapshot_sha,
+                    artifact_run_id=EXCLUDED.artifact_run_id,
+                    updated_at=EXCLUDED.updated_at
+              """), {
+                  "completed_at": manifest.get("created_at") or datetime.now(timezone.utc).isoformat(),
+                  "sha": manifest["sha256"],
+                  "run_id": os.environ.get("GITHUB_RUN_ID"),
+                  "updated_at": datetime.now(timezone.utc).isoformat(),
+              })
+          engine.dispose()
+          print(f"BACKUP_HEARTBEAT_RECORDED=PASS CLASS={backup_class}")
+          PY
+      - name: Upload short-lived encrypted Founder-state backup
+        if: env.BACKUP_CLASS == 'founder_state'
+        uses: actions/upload-artifact@v4
+        with:
+          name: fr007-founder-state-backup-${{ github.run_id }}
+          path: |
+            backup-out/backup.founder_state.enc
+            backup-out/backup.founder_state.manifest.json
+          retention-days: 7
+          if-no-files-found: error
+      - name: Upload monthly encrypted integrity backup and restore manifest
+        if: env.BACKUP_CLASS == 'integrity'
+        uses: actions/upload-artifact@v4
+        with:
+          name: fr007-integrity-backup-${{ github.run_id }}
+          path: |
+            backup-out/backup.integrity.enc
+            backup-out/backup.integrity.manifest.json
+            backup-out/source.dump.manifest.json
+          retention-days: 30
+          if-no-files-found: error

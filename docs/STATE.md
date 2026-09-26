@@ -3,23 +3,40 @@
 
 OpportunityOS is an opportunity-acquisition platform for MENA.
 Last shipped: BRIEF-FR-006 — 2026-09-13.
-Active work: none.
-Phase status: passed.
+Active work: BRIEF-FR-007.
+Phase status: in progress.
 Blocked: BRIEF-007 / Phase 6: Multi-Tenant Family Alpha (strictly blocked until Founder Web Alpha is live and validated).
-Next: Founder Web Alpha is publicly reachable and authentication-protected.
+Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/RLS, prove the repository-managed canonical Truth Pack, load and hash-verify the six private fixed CVs/artifacts, wire Supabase-native Founder browser boundaries and durable scheduling, then deploy the Cloudflare web/edge.
 
 ## Repository
 
-- **Generated:** 2026-09-15T21:03:10Z
-- **State generated at commit:** `d3cdd6e` — FR-007: add current readiness launcher
-- **Mirror sync:** `75f7898` at 2026-09-19T18:55:56Z
+- **Generated:** 2026-09-17T10:01:21Z
+- **State generated at commit:** `94c0194` — docs: mark W23 evidence complete before state commit
+- **Mirror sync:** `471bd15` at 2026-09-26T10:01:08Z
 
 ## Active Brief
 
-- **Brief:** none
-- **Phase status:** passed
-- **Open acceptance items:** 0
-- None
+- **Brief:** BRIEF-FR-007
+- **Phase status:** in progress
+- **Open acceptance items:** 18
+- A-0 — All pre-existing mandatory backend/web/truth/source/action-safety tests remain green; no acceptance criterion is weakened.
+- A-1 — Public Founder Alpha has zero runtime dependency on a founder-owned PC, local PostgreSQL, local scheduler, local tunnel, or local filesystem for correctness.
+- A-2 — After a complete API/web/worker restart with cold process memory, the first authenticated feed request succeeds within the agreed public SLO and returns the same logical result
+- A-3 — Query-plan/regression evidence proves the default feed and common filters/search do not perform corpus-wide Python hydration/scans. Indexed SQL/projection access is used.
+- A-4 — Killing every poll/evaluation worker leaves the existing feed/search/detail experience available.
+- A-5 — Breaking one source adapter or forcing one source job failure does not stop unrelated sources, feed access, artifact downloads, or the scheduler.
+- A-6 — Polling the same stable source repeatedly is identity/idempotency safe: zero duplicate canonical opportunities and zero duplicate source occurrences for the same stable source
+- A-7 — Poll Now returns asynchronously, queues only due/eligible work (plus an explicitly requested source when applicable), leaves the current feed visible, and never triggers an
+- A-8 — Source cadence/cooldown/next-due state survives scheduler/worker restarts; restart produces no all-source warm-up storm.
+- A-9 — Cloud migration preserves all required canonical opportunity/provenance/evaluation/founder-action state and full current-profile evaluation coverage. Any intentional exclusions
+- A-10 — Founder private truth, credentials, service-role secrets, storage signing secrets, database credentials, and auth secrets are absent from Git history/public responses/logs.
+- A-11 — Generated artifacts are stored durably, privately retrievable after service restarts, and remain bound to opportunity/truth-pack/template/validator versions.
+- A-12 — A fresh staging environment is successfully restored from backup and passes schema migration, count/invariant, auth, feed, search, detail, and artifact smoke checks.
+- A-13 — External uptime/error/job heartbeat monitoring is active and produces a test alert/incident signal without relying on the Founder opening the site.
+- A-14 — Production runs for ≥ 7 consecutive days with founder-owned production host processes disabled/offline while scheduled acquisition/evaluation continues successfully.
+- A-15 — A provider-neutral export/restore procedure is tested sufficiently to prove Supabase/compute-provider exit is possible without rewriting domain logic or losing canonical data.
+- A-16 — Desktop and 390px mobile authenticated smoke tests pass after cloud cutover, including feed, pagination, search, facets, detail, source link, Poll Now status, and artifact access.
+- A-17 — The runtime cost envelope proves $0 gross provider charge and $0 Founder out-of-pocket charge, with no student/trial-credit dependency, no paid tier/add-on and documented
 
 ## Completed Briefs
 
@@ -42,7 +59,7 @@ Next: Founder Web Alpha is publicly reachable and authentication-protected.
 ## Decisions
 
 ### Open
-- None
+- [ADR-0022 — Cloud-Native Runtime and Supabase Data Plane](adr/ADR-0022-cloud-native-runtime-and-supabase-data-plane.md)
 
 ### Accepted
 - [ADR-0001 — Private Source with Public Documentation Mirror](adr/ADR-0001-repository-topology.md)
@@ -64,6 +81,8 @@ Next: Founder Web Alpha is publicly reachable and authentication-protected.
 - [ADR-0017: The CV/cover-letter document model](adr/ADR-0017-document-model.md)
 - [ADR-0018 — Phone Token Metric Disambiguation in Claim Validator](adr/ADR-0018-phone-token-metric-disambiguation.md)
 - [ADR-0021 — Canonical Artifact Claim Validation Boundary](adr/ADR-0021-artifact-validator-authority.md)
+- [ADR-0023 — Zero-Dollar Founder Runtime on Supabase, Cloudflare, and GitHub](adr/ADR-0023-zero-dollar-founder-runtime.md)
+- [ADR-0024 — Founder-Locked CV Portfolio Selection](adr/ADR-0024-fixed-cv-portfolio-selection.md)
 
 ## Blocked Items
 
@@ -83,4 +102,4 @@ Next: Founder Web Alpha is publicly reachable and authentication-protected.
 
 ## Next Prerequisites
 
-Founder Web Alpha is publicly reachable and authentication-protected. Founder validation is next. Inject the real private Founder Truth Pack only into a founder-controlled durable deployment; never commit it. Do not start BRIEF-007 / Phase 6 until the Founder personally validates and accepts Founder Web Alpha.
+Complete the real zero-dollar hosted staging path: finish Supabase parity/RLS, prove the repository-managed canonical Truth Pack, load and hash-verify the six private fixed CVs/artifacts, wire Supabase-native Founder browser boundaries and durable scheduling, then deploy the Cloudflare web/edge path. FastAPI/OCI remains portability/test evidence, not production infrastructure.

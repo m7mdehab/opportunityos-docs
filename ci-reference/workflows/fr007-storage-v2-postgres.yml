@@ -1,0 +1,254 @@
+name: FR-007 Storage V2 PostgreSQL acceptance
+
+on:
+  push:
+    branches: [work/fr007-clean-rebuild-storage-v2]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "postgres-ci, credential-probe, or verify-cv-storage"
+        required: true
+        type: choice
+        options: [postgres-ci, credential-probe, verify-cv-storage]
+        default: postgres-ci
+  workflow_call:
+    inputs:
+      mode:
+        required: false
+        type: string
+        default: postgres-ci
+
+permissions:
+  contents: read
+
+jobs:
+  postgres-contract:
+    if: ${{ inputs.mode == 'postgres-ci' || inputs.mode == '' }}
+    name: PostgreSQL ${{ matrix.postgres }} migration and regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      matrix:
+        postgres: [16, 17]
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgres }}-alpine
+        env:
+          POSTGRES_USER: opportunityos
+          POSTGRES_PASSWORD: ${{ github.run_id }}
+          POSTGRES_DB: opportunityos_fresh
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      PGPASSWORD: ${{ github.run_id }}
+      OPPORTUNITYOS_RUN_SEARCH_PERF: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install repository and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+      - name: Create Supabase browser roles in disposable PostgreSQL
+        run: |
+          psql -h localhost -U opportunityos -d opportunityos_fresh <<'SQL'
+          DO $$ BEGIN
+            CREATE ROLE anon NOLOGIN;
+          EXCEPTION WHEN duplicate_object THEN NULL;
+          END $$;
+          DO $$ BEGIN
+            CREATE ROLE authenticated NOLOGIN;
+          EXCEPTION WHEN duplicate_object THEN NULL;
+          END $$;
+          SQL
+      - name: Migrate a fresh database to the single head
+        env:
+          OPPORTUNITYOS_DB_URL: postgresql+psycopg2://opportunityos:${{ github.run_id }}@localhost:5432/opportunityos_fresh
+        run: |
+          alembic upgrade head
+          python scripts/verify_storage_v2_schema.py
+      - name: Upgrade from the deployed production migration state
+        env:
+          OPPORTUNITYOS_DB_URL: postgresql+psycopg2://opportunityos:${{ github.run_id }}@localhost:5432/opportunityos_upgrade
+        run: |
+          createdb -h localhost -U opportunityos opportunityos_upgrade
+          alembic upgrade 0019_activity_view_access
+          alembic upgrade 0022_storage_v2_direct_tiering
+          alembic upgrade head
+          python scripts/verify_storage_v2_schema.py
+      - name: Exercise bounded Storage V2 source-gate measurements against PostgreSQL
+        env:
+          OPOS_TARGET_DB_URL: postgresql+psycopg2://opportunityos:${{ github.run_id }}@localhost:5432/opportunityos_fresh
+        run: >-
+          python scripts/fr007_storage_v2_source_gate.py snapshot
+          --source-id himalayas --output storage-v2-empty-source-snapshot.json
+      - name: Prove egress-bounded Founder backup on migrated PostgreSQL
+        env:
+          OPPORTUNITYOS_DB_URL: postgresql+psycopg2://opportunityos:${{ github.run_id }}@localhost:5432/opportunityos_fresh
+          FR007_POSTGRES_BACKUP_TEST: "1"
+        run: python -m pytest scripts/test_founder_state_backup.py -q
+      - name: Run complete PostgreSQL-backed subsystem tests
+        env:
+          OPPORTUNITYOS_DB_URL: postgresql+psycopg2://opportunityos:${{ github.run_id }}@localhost:5432/opportunityos_fresh
+        run: |
+          set -euo pipefail
+          python -m pytest -q 2>&1 | tee storage-v2-postgres-test.log
+      - name: Upload PostgreSQL test log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fr007-storage-v2-postgres-${{ matrix.postgres }}-${{ github.run_id }}
+          path: storage-v2-postgres-test.log
+          if-no-files-found: error
+          retention-days: 14
+
+  new-project-credential-probe:
+    if: ${{ inputs.mode == 'credential-probe' }}
+    name: Read-only new-project session-pooler credential probe
+    runs-on: ubuntu-latest
+    environment: fr007-staging
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install 'SQLAlchemy>=2,<3' 'psycopg2-binary>=2.9,<3'
+      - name: Test protected DB credentials without emitting credential material
+        env:
+          OPOS_TARGET_DB_URL: ${{ secrets.OPOS_TARGET_DB_URL }}
+          CLOUD_DATABASE_URL: ${{ secrets.CLOUD_DATABASE_URL }}
+        run: |
+          python - <<'PY'
+          import os
+          from sqlalchemy import create_engine, text
+          from sqlalchemy.engine import make_url
+          from scripts.fr007_db_credential_diagnostics import classify_database_exception
+
+          pooler_host = "aws-0-eu-central-1.pooler.supabase.com"
+          direct_host = "db.sunjfepvdzfknglrjwhm.supabase.co"
+          pooler_username = "postgres.sunjfepvdzfknglrjwhm"
+          required_names = ("OPOS_TARGET_DB_URL", "CLOUD_DATABASE_URL")
+          successful = []
+          failures = []
+          control_route = None
+          for name in required_names:
+              phase = "parse-url"
+              route = "unverified"
+              raw = os.environ.get(name, "").strip()
+              if not raw:
+                  failures.append(f"{name}:missing")
+                  continue
+              try:
+                  parsed = make_url(raw)
+                  route = (
+                      "session_pooler" if parsed.host == pooler_host
+                      else "direct" if parsed.host == direct_host
+                      else "unrecognized"
+                  )
+                  phase = "endpoint-validation"
+                  expected_route = "session_pooler" if name == "CLOUD_DATABASE_URL" else None
+                  expected_username = pooler_username if name == "CLOUD_DATABASE_URL" else None
+                  if name == "CLOUD_DATABASE_URL":
+                      valid_endpoint = (
+                          parsed.host == pooler_host and parsed.port == 5432
+                          and parsed.username == pooler_username and parsed.database == "postgres"
+                      )
+                  elif parsed.host == direct_host:
+                      expected_route = "direct"
+                      expected_username = "postgres"
+                      valid_endpoint = parsed.port == 5432 and parsed.username == expected_username and parsed.database == "postgres"
+                  elif parsed.host == pooler_host:
+                      expected_route = "session_pooler"
+                      expected_username = pooler_username
+                      valid_endpoint = parsed.port == 5432 and parsed.username == expected_username and parsed.database == "postgres"
+                  else:
+                      valid_endpoint = False
+                  if not valid_endpoint:
+                      failures.append(f"{name}:route={route}:endpoint-configuration-mismatch")
+                      continue
+                  query = dict(parsed.query)
+                  query.update({"sslmode": "require", "connect_timeout": "8"})
+                  candidate = parsed.set(
+                      drivername="postgresql+psycopg2",
+                      query=query,
+                  )
+                  phase = "engine-configuration"
+                  engine = create_engine(candidate, pool_pre_ping=True, pool_size=1, max_overflow=0)
+                  try:
+                      phase = "primary-session-check"
+                      with engine.connect() as connection:
+                          state = connection.execute(text(
+                              "SELECT current_database(), current_user, pg_is_in_recovery(), "
+                              "current_setting('default_transaction_read_only')"
+                          )).one()
+                          # PgBouncer authenticates with postgres.<project-ref> but PostgreSQL
+                          # exposes the effective database role as postgres.
+                          if state[0] != "postgres" or state[1] != "postgres" or state[2] or state[3] != "off":
+                              failures.append(f"{name}:primary-session-state-mismatch")
+                              continue
+                          phase = "session-persistence-check"
+                          backend_before = connection.execute(text("SELECT pg_backend_pid()")).scalar_one()
+                          connection.execute(text(
+                              "CREATE TEMP TABLE opos_fr007_credential_probe (value integer NOT NULL) "
+                              "ON COMMIT PRESERVE ROWS"
+                          ))
+                          connection.execute(text("INSERT INTO opos_fr007_credential_probe VALUES (1)"))
+                          connection.commit()
+                          semantics = connection.execute(text(
+                              "SELECT pg_backend_pid(), count(*), min(value), max(value) "
+                              "FROM opos_fr007_credential_probe"
+                          )).one()
+                          if semantics[0] != backend_before or tuple(semantics[1:]) != (1, 1, 1):
+                              failures.append(f"{name}:session-semantics-mismatch")
+                              continue
+                          connection.execute(text("DROP TABLE opos_fr007_credential_probe"))
+                          connection.commit()
+                          successful.append(name)
+                          if name == "OPOS_TARGET_DB_URL":
+                              control_route = expected_route
+                  finally:
+                      engine.dispose()
+              except Exception as exc:
+                  category, sqlstate = classify_database_exception(exc)
+                  if phase == "parse-url" and category == "ArgumentError":
+                      category = "invalid-uri-format"
+                  failures.append(
+                      f"{name}:route={route}:{phase}:{category}"
+                      + (f"/SQLSTATE-{sqlstate}" if sqlstate else "")
+                  )
+                  continue
+          if tuple(successful) == required_names and not failures:
+              print(f"PASS: direct/control route={control_route}; session-pooler runtime route=verified; both preserve writable, session-persistent PostgreSQL semantics")
+          else:
+              raise SystemExit(
+                  "credential probe failed: both protected DB URL secrets must pass the replacement session-pooler and session-semantics checks; "
+                  + ", ".join(failures)
+                  + "; no credential data emitted"
+              )
+          PY
+
+  private-cv-storage-verification:
+    if: ${{ inputs.mode == 'verify-cv-storage' }}
+    name: Verify canonical private CV portfolio hashes
+    runs-on: ubuntu-latest
+    environment: fr007-staging
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download and hash-check private portfolio objects
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          STORAGE_SERVICE_KEY: ${{ secrets.STORAGE_SERVICE_KEY }}
+        run: python scripts/verify_cv_storage_objects.py
