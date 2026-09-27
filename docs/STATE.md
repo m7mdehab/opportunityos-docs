@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-09-27T16:10:49Z
-- **State generated at commit:** `b650267` — docs: close W23 capacity recovery evidence
-- **Mirror sync:** `966df52` at 2026-09-27T16:21:48Z
+- **Generated:** 2026-09-27T16:19:23Z
+- **State generated at commit:** `993bd07` — docs: clarify hosted smoke verification outcome
+- **Mirror sync:** `62acbcb` at 2026-09-27T16:29:10Z
 
 ## Active Brief
 
