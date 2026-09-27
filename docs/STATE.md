@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-17T10:01:21Z
-- **State generated at commit:** `a2ddb43` — ci(worker): run bounded orphan dead-letter recovery
-- **Mirror sync:** `c4249df` at 2026-09-26T23:43:01Z
+- **State generated at commit:** `fad1284` — test(storage): order capacity fixture writes by foreign key
+- **Mirror sync:** `ac9ecbf` at 2026-09-27T00:02:19Z
 
 ## Active Brief
 
