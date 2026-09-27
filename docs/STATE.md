@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-17T10:01:21Z
-- **State generated at commit:** `fad1284` — test(storage): order capacity fixture writes by foreign key
-- **Mirror sync:** `ac9ecbf` at 2026-09-27T00:02:19Z
+- **State generated at commit:** `1ff2fe0` — chore(ci): bootstrap hot capacity reclaim trigger
+- **Mirror sync:** `ea9c256` at 2026-09-27T00:18:11Z
 
 ## Active Brief
 
