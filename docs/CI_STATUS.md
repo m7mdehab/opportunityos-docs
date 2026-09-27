@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `62acbcb` — docs: clarify W23 hosted smoke verification
-- **Checked:** 2026-09-27T16:59:36Z
+- **Checked:** 2026-09-27T21:22:47Z
 - **Mandatory Governance & Test Suite:** success
 - **State:** success
 - **Guard:** success
