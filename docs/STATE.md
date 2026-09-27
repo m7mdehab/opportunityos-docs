@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-09-27T12:04:05Z
-- **State generated at commit:** `9a68208` — fix(worker): serialize hosted drain workflows
-- **Mirror sync:** `7344e13` at 2026-09-27T12:14:17Z
+- **Generated:** 2026-09-27T16:10:49Z
+- **State generated at commit:** `b650267` — docs: close W23 capacity recovery evidence
+- **Mirror sync:** `966df52` at 2026-09-27T16:21:48Z
 
 ## Active Brief
 
