@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-27T16:19:23Z
-- **State generated at commit:** `0439f3e` — fix(bc1): keep migration revision within version column limit
-- **Mirror sync:** `807c335` at 2026-09-28T00:47:43Z
+- **State generated at commit:** `49e01f1` — fix: grant recommendation views when hosted roles exist
+- **Mirror sync:** `f8b5d04` at 2026-09-28T01:49:17Z
 
 ## Active Brief
 
