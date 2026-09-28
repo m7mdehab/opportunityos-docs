@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-09-28T03:53:23Z
-- **State generated at commit:** `4c97333` — fix: sort For You by recommendation rank
-- **Mirror sync:** `ffdc733` at 2026-09-28T04:03:36Z
+- **Generated:** 2026-09-28T04:09:59Z
+- **State generated at commit:** `244107b` — test: scroll nested staging filter before interaction
+- **Mirror sync:** `b54fea7` at 2026-09-28T04:19:47Z
 
 ## Active Brief
 
