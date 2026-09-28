@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-28T04:09:59Z
-- **State generated at commit:** `7f0b447` — fix(bc): run candidate refresh as module
-- **Mirror sync:** `e48e067` at 2026-09-28T18:50:48Z
+- **State generated at commit:** `244ab9e` — fix(bc): allow discovery mode without explicit IDs
+- **Mirror sync:** `33d1d0b` at 2026-09-28T18:57:30Z
 
 ## Active Brief
 
