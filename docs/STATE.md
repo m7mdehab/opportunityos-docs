@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-28T21:52:13Z
-- **State generated at commit:** `c8400d7` — fix(e2e): report dashboard response errors safely
-- **Mirror sync:** `c955949` at 2026-09-28T22:37:24Z
+- **State generated at commit:** `d09a999` — fix(matching): separate AI products from technical roles
+- **Mirror sync:** `b300480` at 2026-09-28T22:50:25Z
 
 ## Active Brief
 
