@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-28T21:52:13Z
-- **State generated at commit:** `613dfdf` — docs: record hosted smoke remediation checkpoint
-- **Mirror sync:** `7dd4365` at 2026-09-28T22:01:58Z
+- **State generated at commit:** `c8400d7` — fix(e2e): report dashboard response errors safely
+- **Mirror sync:** `c955949` at 2026-09-28T22:37:24Z
 
 ## Active Brief
 
