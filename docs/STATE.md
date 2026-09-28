@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-09-28T23:14:15Z
-- **State generated at commit:** `60dfb36` — docs(state): refresh BC closure handoff
-- **Mirror sync:** `978a531` at 2026-09-28T23:24:07Z
+- **Generated:** 2026-09-28T23:45:14Z
+- **State generated at commit:** `a1600be` — docs(bc): record live feed composition checkpoint
+- **Mirror sync:** `8906c45` at 2026-09-28T23:53:52Z
 
 ## Active Brief
 
