@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-09-28T21:52:13Z
-- **State generated at commit:** `d09a999` — fix(matching): separate AI products from technical roles
-- **Mirror sync:** `b300480` at 2026-09-28T22:50:25Z
+- **Generated:** 2026-09-28T23:02:00Z
+- **State generated at commit:** `a02ff5f` — docs(state): update BC closure handoff
+- **Mirror sync:** `0f57c4b` at 2026-09-28T23:11:24Z
 
 ## Active Brief
 
