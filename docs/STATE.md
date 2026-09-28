@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-28T04:09:59Z
-- **State generated at commit:** `fb96097` — test(bc5): tolerate empty source ID metadata
-- **Mirror sync:** `7268c20` at 2026-09-28T05:01:46Z
+- **State generated at commit:** `8366550` — feat(observability): split feed recomputation timings
+- **Mirror sync:** `e197c98` at 2026-09-28T18:43:14Z
 
 ## Active Brief
 
