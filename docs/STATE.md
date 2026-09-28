@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-27T16:19:23Z
-- **State generated at commit:** `993bd07` — docs: clarify hosted smoke verification outcome
-- **Mirror sync:** `62acbcb` at 2026-09-27T16:29:10Z
+- **State generated at commit:** `0439f3e` — fix(bc1): keep migration revision within version column limit
+- **Mirror sync:** `807c335` at 2026-09-28T00:47:43Z
 
 ## Active Brief
 
