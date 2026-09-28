@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-09-28T21:27:56Z
-- **State generated at commit:** `ba969c9` — docs: update BC latency checkpoint head
-- **Mirror sync:** `bdb58eb` at 2026-09-28T21:37:52Z
+- **Generated:** 2026-09-28T21:36:42Z
+- **State generated at commit:** `1c3eba2` — docs: record BC deploy assertion blocker
+- **Mirror sync:** `6d5ecf6` at 2026-09-28T21:46:57Z
 
 ## Active Brief
 
