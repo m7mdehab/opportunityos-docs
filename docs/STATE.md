@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-28T04:09:59Z
-- **State generated at commit:** `244107b` — test: scroll nested staging filter before interaction
-- **Mirror sync:** `b54fea7` at 2026-09-28T04:19:47Z
+- **State generated at commit:** `190b24a` — test(bc5): use keyboard for nested track filter smoke
+- **Mirror sync:** `d05b8a2` at 2026-09-28T04:34:31Z
 
 ## Active Brief
 
