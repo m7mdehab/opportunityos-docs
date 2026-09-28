@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-28T04:09:59Z
-- **State generated at commit:** `8366550` — feat(observability): split feed recomputation timings
-- **Mirror sync:** `e197c98` at 2026-09-28T18:43:14Z
+- **State generated at commit:** `7f0b447` — fix(bc): run candidate refresh as module
+- **Mirror sync:** `e48e067` at 2026-09-28T18:50:48Z
 
 ## Active Brief
 
