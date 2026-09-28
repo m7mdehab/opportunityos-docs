@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-09-28T04:09:59Z
-- **State generated at commit:** `a20cc31` — test(bc): make hosted feed acceptance wait for live controls
-- **Mirror sync:** `3befc83` at 2026-09-28T19:29:19Z
+- **State generated at commit:** `1c2caeb` — fix(web): keep mobile filter checklist tappable
+- **Mirror sync:** `7b2a739` at 2026-09-28T19:52:47Z
 
 ## Active Brief
 
