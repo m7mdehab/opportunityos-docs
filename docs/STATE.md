@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-09-29T01:05:01Z
-- **State generated at commit:** `4c0cbe0` — perf(dashboard): index opportunity date metrics
-- **Mirror sync:** `ad80b82` at 2026-09-29T01:16:45Z
+- **Generated:** 2026-09-29T01:36:26Z
+- **State generated at commit:** `ca9d879` — docs(bc): record hosted closure evidence
+- **Mirror sync:** `63c5d02` at 2026-09-29T01:45:23Z
 
 ## Active Brief
 
