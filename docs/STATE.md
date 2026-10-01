@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-10-01T20:33:48Z
-- **State generated at commit:** `bf20523` — fix(deploy): fetch merge parent for bounded release
-- **Mirror sync:** `b783521` at 2026-10-01T21:06:54Z
+- **Generated:** 2026-10-01T21:43:14Z
+- **State generated at commit:** `f7317f6` — fix: keep bounded refresh and reconciliation limits separate
+- **Mirror sync:** `e2c3c3d` at 2026-10-01T21:54:02Z
 
 ## Active Brief
 
