@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-10-01T20:33:48Z
-- **State generated at commit:** `e7ec065` — fix(deploy): bound BC projection release
-- **Mirror sync:** `4896576` at 2026-10-01T20:57:46Z
+- **State generated at commit:** `bf20523` — fix(deploy): fetch merge parent for bounded release
+- **Mirror sync:** `b783521` at 2026-10-01T21:05:40Z
 
 ## Active Brief
 
