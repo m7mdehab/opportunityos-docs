@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-10-02T12:49:35Z
-- **State generated at commit:** `ca52643` — fix: forecast catch-up from recent cohort growth
-- **Mirror sync:** `77143af` at 2026-10-02T13:00:00Z
+- **Generated:** 2026-10-02T13:27:01Z
+- **State generated at commit:** `d1a3fa6` — fix: guard maintenance rewrites against provider headroom
+- **Mirror sync:** `039ee00` at 2026-10-02T13:37:36Z
 
 ## Active Brief
 
