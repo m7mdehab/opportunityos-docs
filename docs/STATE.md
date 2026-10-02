@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-10-02T09:27:57Z
-- **State generated at commit:** `ccd92ea` — fix: parse serialized due time in catch-up manifest
-- **Mirror sync:** `2a70b7d` at 2026-10-02T09:37:32Z
+- **Generated:** 2026-10-02T12:49:35Z
+- **State generated at commit:** `ca52643` — fix: forecast catch-up from recent cohort growth
+- **Mirror sync:** `77143af` at 2026-10-02T13:00:00Z
 
 ## Active Brief
 
