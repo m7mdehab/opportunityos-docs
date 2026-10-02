@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `df0523f` — fix: allow long-running source polls to finish
-- **Checked:** 2026-10-02T05:07:53Z
+- **Checked:** 2026-10-02T05:40:12Z
 - **Mandatory Governance & Test Suite:** success
 - **State:** success
 - **Guard:** success
