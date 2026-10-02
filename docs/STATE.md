@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-10-02T08:58:16Z
-- **State generated at commit:** `32547be` — fix: resume safe partial cohorts after maintenance
-- **Mirror sync:** `f7add35` at 2026-10-02T09:09:19Z
+- **Generated:** 2026-10-02T09:17:06Z
+- **State generated at commit:** `ba0e1ec` — fix: honor frozen due source manifest on resume
+- **Mirror sync:** `8384cf5` at 2026-10-02T09:27:37Z
 
 ## Active Brief
 
