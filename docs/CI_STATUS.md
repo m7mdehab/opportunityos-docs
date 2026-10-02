@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `afcaed9` — Merge PR #206: wait through bounded source poll retries
-- **Checked:** 2026-10-02T08:02:55Z
+- **Checked:** 2026-10-02T08:41:46Z
 - **Mandatory Governance & Test Suite:** success
 - **State:** success
 - **Guard:** success
