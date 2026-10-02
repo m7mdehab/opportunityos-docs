@@ -10,9 +10,9 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 ## Repository
 
-- **Generated:** 2026-10-02T05:57:24Z
-- **State generated at commit:** `797bc01` — fix: calibrate catch-up capacity forecast margin
-- **Mirror sync:** `82ee45f` at 2026-10-02T06:07:14Z
+- **Generated:** 2026-10-02T07:49:25Z
+- **State generated at commit:** `c65ff56` — fix: wait through bounded source poll retries
+- **Mirror sync:** `afcaed9` at 2026-10-02T08:00:23Z
 
 ## Active Brief
 
