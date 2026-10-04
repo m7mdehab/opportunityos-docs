@@ -11,8 +11,8 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 ## Repository
 
 - **Generated:** 2026-10-02T21:11:57Z
-- **State generated at commit:** `1201803` — docs: document 12-hour monitoring cadence
-- **Mirror sync:** `610c4d1` at 2026-10-04T12:16:46Z
+- **State generated at commit:** `2a90a87` — test: lock hosted 12-hour source floor
+- **Mirror sync:** `7132088` at 2026-10-04T17:09:57Z
 
 ## Active Brief
 
