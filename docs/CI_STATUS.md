@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `5013aa7` — Harden FR-007 catch-up into a resilient checkpointed state machine (#226)
-- **Checked:** 2026-10-05T09:16:15Z
+- **Checked:** 2026-10-05T14:43:32Z
 - **Mandatory Governance & Test Suite:** success
 - **State:** success
 - **Guard:** success
