@@ -2,10 +2,10 @@
 # OpportunityOS CI Status
 
 - **Private main:** `39438d7` — Fix FR-007 post-maintenance catch-up resume dispatch (#227)
-- **Checked:** 2026-10-10T08:41:36Z
-- **Mandatory Governance & Test Suite:** success
+- **Checked:** 2026-10-10T12:34:47Z
+- **Mandatory Governance & Test Suite:** missing
 - **State:** success
 - **Guard:** success
 - **Mirror:** success
 - **Mirror currency:** current — latest sync `39438d7`
-- **Verdict:** HEALTHY
+- **Verdict:** CHECKS FAILING
