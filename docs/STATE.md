@@ -12,7 +12,7 @@ Next: Complete the real zero-dollar hosted staging path: finish Supabase parity/
 
 - **Generated:** 2026-10-02T21:11:57Z
 - **State generated at commit:** `110f9ae` — test: prevent context-dependent GitHub workflow dispatch
-- **Mirror sync:** `39438d7` at 2026-10-05T19:28:29Z
+- **Mirror sync:** `7a83e4b` at 2026-10-13T00:27:36Z
 
 ## Active Brief
 
