@@ -2,7 +2,7 @@
 # OpportunityOS CI Status
 
 - **Private main:** `80f222c` — docs(ci): owner-approved budget rule, no hosted run [skip ci] [ci skip]
-- **Checked:** 2026-11-23T10:56:58Z
+- **Checked:** 2026-11-23T23:55:53Z
 - **Mandatory Governance & Test Suite:** missing
 - **State:** missing
 - **Guard:** missing
